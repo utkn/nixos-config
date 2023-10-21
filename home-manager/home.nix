@@ -1,5 +1,3 @@
-# This is your home-manager configuration file
-# Use this to configure your home environment (it replaces ~/.config/nixpkgs/home.nix)
 {
   inputs,
   lib,
@@ -38,19 +36,37 @@
     };
   };
 
-  # TODO: Set your username
   home = {
     username = "utkn";
     homeDirectory = "/home/utkn";
+    packages = with pkgs; [ 
+        firefox-wayland
+        github-cli
+        ranger
+        fish
+        virt-manager
+        bottom
+        solaar
+        mpv
+      ]; 
+    sessionVariables = {
+      MOZ_ENABLE_WAYLAND = "1"; # enable wayland for firefox
+    };
   };
-
-  # Add stuff for your user as you see fit:
-  # programs.neovim.enable = true;
-  # home.packages = with pkgs; [ steam ];
 
   # Enable home-manager and git
   programs.home-manager.enable = true;
   programs.git.enable = true;
+  programs.alacritty = {
+    enable = true;
+    settings = {
+      shell.program = "/home/utkn/.nix-profile/bin/fish";
+      window.padding = {
+        x = 8;
+        y = 8;
+      };
+    };
+  };
 
   # Nicely reload system units when changing configs
   systemd.user.startServices = "sd-switch";
