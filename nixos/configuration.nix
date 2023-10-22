@@ -61,8 +61,8 @@
 
   programs.dconf.enable = true;
   environment.systemPackages = with pkgs; [
-  	helix
-  	aria2
+    helix
+    aria2
     git
     wget
     tree
