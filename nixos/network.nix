@@ -1,6 +1,7 @@
 { ... }: {
   # Enable networking
   networking.hostName = "apollo";
+  networking.hostId = "00bab10c";
   networking.networkmanager.enable = true;
   networking.networkmanager.extraConfig = "
     [connection]
