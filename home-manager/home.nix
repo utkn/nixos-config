@@ -3,14 +3,15 @@
   lib,
   config,
   pkgs,
+  userName,
   ...
 }: {
   # You can import other home-manager modules here
   imports = [
     inputs.plasma-manager.homeManagerModules.plasma-manager
     ./kde.nix
-    # You can also split up your configuration and import pieces of it here:
-    # ./nvim.nix
+    ./essentials/helix.nix
+    ./essentials/alacritty.nix
   ];
 
   nixpkgs = {
@@ -36,8 +37,8 @@
   };
 
   home = {
-    username = "utkn";
-    homeDirectory = "/home/utkn";
+    username = "${userName}";
+    homeDirectory = "/home/${userName}";
     packages = with pkgs; [ 
         firefox-wayland
         github-cli
@@ -56,42 +57,6 @@
   # Enable home-manager and git
   programs.home-manager.enable = true;
   programs.git.enable = true;
-  programs.alacritty = {
-    enable = true;
-    settings = {
-      shell.program = "/home/utkn/.nix-profile/bin/fish";
-      window.padding = {
-        x = 8;
-        y = 8;
-      };
-    };
-  };
-
-  programs.helix = {
-    enable = true;
-    themes = {
-      custom = {
-        inherits = "catppuccin_frappe";
-        "ui.background" = "{}";
-      };
-    };
-    settings = {
-      theme = "custom";
-      editor = {
-        bufferline = "always";
-        cursorline = true;
-        cursor-shape = {
-          insert = "bar";
-          normal = "block";
-          select = "underline";
-        };
-        file-picker = {
-          hidden = false;
-        };
-        indent-guides.render = true;
-      };
-    };
-  };
 
   # Nicely reload system units when changing configs
   systemd.user.startServices = "sd-switch";

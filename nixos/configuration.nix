@@ -3,12 +3,14 @@
   lib,
   config,
   pkgs,
+  # hostName,
+  adminUser,
   ...
 }: {
   imports = [
     ./hardware-configuration.nix
     ./virtualization.nix
-    ./network.nix
+    ./networking.nix
     ./services.nix
   ];
 
@@ -89,11 +91,10 @@
   hardware.logitech.wireless.enable = true;
 
   users.users = {
-    utkn = {
+    ${adminUser} = {
       initialPassword = "supersecretpassword";
       isNormalUser = true;
-      description = "Utkan";
-      extraGroups = [ "networkmanager" "wheel" "kvm" "libvirtd" ];
+      extraGroups = [ "wheel" "networkmanager" "kvm" "libvirtd" ];
       openssh.authorizedKeys.keys = [
         # TODO: Add your SSH public key(s) here, if you plan on using SSH to connect
       ];
