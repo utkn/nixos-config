@@ -90,6 +90,7 @@
 
   users.users = {
     utkn = {
+      initialPassword = "supersecretpassword";
       isNormalUser = true;
       description = "Utkan";
       extraGroups = [ "networkmanager" "wheel" "kvm" "libvirtd" ];

@@ -14,27 +14,27 @@
   boot.extraModulePackages = [ ];
 
   fileSystems."/" =
-    { device = "zroot/ROOT/nixos";
+    { device = "zroot/ENCR/nixos";
       fsType = "zfs";
     };
 
   fileSystems."/nix" =
-    { device = "zroot/ROOT/nixos/nix";
+    { device = "zroot/ENCR/nixos/nix";
       fsType = "zfs";
     };
 
   fileSystems."/home" =
-    { device = "zroot/home";
+    { device = "zroot/ENCR/home";
       fsType = "zfs";
     };
 
   fileSystems."/boot" =
-    { device = "/dev/disk/by-uuid/68BB-7E2B";
+    { device = "/dev/disk/by-uuid/C835-A9DD";
       fsType = "vfat";
     };
 
   swapDevices =
-    [ { device = "/dev/disk/by-uuid/3cbf944c-abf4-4251-976f-f1b2c2939ee3"; }
+    [ { device = "/dev/disk/by-uuid/0e2e99fe-18a9-4c4b-aee7-5f2a1048f5bd"; }
     ];
 
   # Enables DHCP on each ethernet and wireless interface. In case of scripted networking
