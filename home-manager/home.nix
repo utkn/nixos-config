@@ -9,7 +9,6 @@
   # You can import other home-manager modules here
   imports = [
     inputs.plasma-manager.homeManagerModules.plasma-manager
-    ./kde.nix
     ./essentials/helix.nix
     ./essentials/alacritty.nix
   ];
@@ -48,9 +47,15 @@
         bottom
         solaar
         mpv
+        waybar
+        wofi
+        pavucontrol
+        hyprpaper
       ]; 
     sessionVariables = {
       MOZ_ENABLE_WAYLAND = "1"; # enable wayland for firefox
+      EDITOR = "hx";
+      VISUAL = "hx";
     };
   };
 

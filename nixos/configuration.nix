@@ -10,8 +10,6 @@
   imports = [
     ./hardware-configuration.nix
     ./virtualization.nix
-    ./networking.nix
-    ./services.nix
   ];
 
   nixpkgs = {
@@ -49,6 +47,12 @@
       # Deduplicate and optimize nix store
       auto-optimise-store = true;
     };
+
+    gc = {
+      automatic = true;
+      dates = "weekly";
+      options = "--delete-older-than 7d";
+    };
   };
 
   # Bootloader.
@@ -61,6 +65,14 @@
   # Select internationalisation properties.
   i18n.defaultLocale = "en_US.UTF-8";
 
+  # Fonts
+  fonts.packages = with pkgs; [
+    noto-fonts
+    noto-fonts-cjk
+    font-awesome_5
+  ];
+
+  # Core programs.
   programs.dconf.enable = true;
   environment.systemPackages = with pkgs; [
     helix
@@ -73,7 +85,27 @@
     htop
     neofetch
     nil
+    killall
   ];
+
+  # Window manager
+  programs.hyprland.enable = true;
+
+  # Networking
+  networking.hostName = "apollo";
+  networking.hostId = "00bab10c";
+  # Use NetworkManager
+  networking.networkmanager.enable = true;
+  # Allow mDNS broadcast + listen
+  networking.networkmanager.extraConfig = "
+    [connection]
+    mdns=2
+  ";
+  # Disable the firewall.
+  networking.firewall.enable = false;
+  # Open ports in the firewall.
+  # networking.firewall.allowedTCPPorts = [ ... ];
+  # networking.firewall.allowedUDPPorts = [ ... ];
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
@@ -86,15 +118,46 @@
   # Enable bluetooth
   hardware.bluetooth.enable = true;
   hardware.bluetooth.powerOnBoot = true;
+  services.blueman.enable = true;
 
   # Enable logitech compatibility
   hardware.logitech.wireless.enable = true;
+
+  # Enable CUPS to print documents.
+  # services.printing.enable = true;
+
+  # Enable sound with pipewire.
+  security.rtkit.enable = true;
+  services.pipewire = {
+    enable = true;
+    alsa.enable = true;
+    alsa.support32Bit = true;
+    pulse.enable = true;
+    # If you want to use JACK applications, uncomment this
+    #jack.enable = true;
+
+    # use the example session manager (no others are packaged yet so this is enabled by default,
+    # no need to redefine it in your config for now)
+    #media-session.enable = true;
+  };
+
+  # Enable touchpad support (enabled default in most desktopManager).
+  # services.xserver.libinput.enable = true;
+
+  # Enable the OpenSSH daemon.
+  services.openssh = {
+    enable = true;
+    settings = {
+      PermitRootLogin = "no";
+      PasswordAuthentication = true;
+    };
+  };
 
   users.users = {
     ${adminUser} = {
       initialPassword = "supersecretpassword";
       isNormalUser = true;
-      extraGroups = [ "wheel" "networkmanager" "kvm" "libvirtd" ];
+      extraGroups = [ "wheel" "networkmanager" "kvm" "libvirtd" "input" "bluetooth" ];
       openssh.authorizedKeys.keys = [
         # TODO: Add your SSH public key(s) here, if you plan on using SSH to connect
       ];
