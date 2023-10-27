@@ -20,7 +20,7 @@
 
       (final: prev: {
         fish = prev.fish.overrideAttrs (oldAttrs: {
-          patches = (oldAttrs.patches or []) ++ [ ./fish-zfs.patch ];
+          patches = (oldAttrs.patches or []) ++ [ ./patches/fish-zfs.patch ];
         });
       })
     ];
