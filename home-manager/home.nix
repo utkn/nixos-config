@@ -1,16 +1,15 @@
 {
   inputs,
-  lib,
-  config,
+  # lib,
+  # config,
   pkgs,
   userName,
   ...
 }: {
   # You can import other home-manager modules here
   imports = [
-    inputs.plasma-manager.homeManagerModules.plasma-manager
-    ./essentials/helix.nix
-    ./essentials/alacritty.nix
+    ./helix.nix
+    ./alacritty.nix
   ];
 
   nixpkgs = {
@@ -19,12 +18,11 @@
       # If you want to use overlays exported from other flakes:
       # neovim-nightly-overlay.overlays.default
 
-      # Or define it inline, for example:
-      # (final: prev: {
-      #   hi = final.hello.overrideAttrs (oldAttrs: {
-      #     patches = [ ./change-hello-to-hi.patch ];
-      #   });
-      # })
+      (final: prev: {
+        fish = prev.fish.overrideAttrs (oldAttrs: {
+          patches = (oldAttrs.patches or []) ++ [ ./fish-zfs.patch ];
+        });
+      })
     ];
     # Configure your nixpkgs instance
     config = {
@@ -38,30 +36,31 @@
   home = {
     username = "${userName}";
     homeDirectory = "/home/${userName}";
-    packages = with pkgs; [ 
+    packages = with pkgs; [
         firefox-wayland
-        github-cli
         ranger
-        fish
-        virt-manager
+        gh
         bottom
         solaar
         mpv
-        waybar
-        wofi
-        pavucontrol
-        hyprpaper
+        fish
       ]; 
     sessionVariables = {
       MOZ_ENABLE_WAYLAND = "1"; # enable wayland for firefox
-      EDITOR = "hx";
-      VISUAL = "hx";
+      RANGER_LOAD_DEFAULT_RC = "false";
     };
   };
 
+  # Cursor
+  home.pointerCursor = {
+    gtk.enable = true;
+    package = pkgs.simp1e-cursors;
+    name = "Simp1e-Dark";
+    size = 36;
+  };
+  
   # Enable home-manager and git
   programs.home-manager.enable = true;
-  programs.git.enable = true;
 
   # Nicely reload system units when changing configs
   systemd.user.startServices = "sd-switch";

@@ -10,6 +10,7 @@
   imports = [
     ./hardware-configuration.nix
     ./virtualization.nix
+    ./desktop.nix
   ];
 
   nixpkgs = {
@@ -18,14 +19,12 @@
       # If you want to use overlays exported from other flakes:
       # neovim-nightly-overlay.overlays.default
 
-      # Or define it inline, for example:
       # (final: prev: {
-      #   hi = final.hello.overrideAttrs (oldAttrs: {
-      #     patches = [ ./change-hello-to-hi.patch ];
+      #   fish = prev.fish.overrideAttrs (oldAttrs: {
+      #     patches = (oldAttrs.patches or []) ++ [ ./fish-zfs.patch ];
       #   });
       # })
     ];
-    # Configure your nixpkgs instance
     config = {
       # Disable if you don't want unfree packages
       allowUnfree = true;
@@ -65,13 +64,6 @@
   # Select internationalisation properties.
   i18n.defaultLocale = "en_US.UTF-8";
 
-  # Fonts
-  fonts.packages = with pkgs; [
-    noto-fonts
-    noto-fonts-cjk
-    font-awesome_5
-  ];
-
   # Core programs.
   programs.dconf.enable = true;
   environment.systemPackages = with pkgs; [
@@ -84,12 +76,14 @@
     usbutils
     htop
     neofetch
-    nil
+    nil # nix lsp server
     killall
   ];
 
-  # Window manager
-  programs.hyprland.enable = true;
+  environment.sessionVariables = {
+      EDITOR = "hx";
+      VISUAL = "hx";
+  };
 
   # Networking
   networking.hostName = "apollo";
@@ -118,7 +112,6 @@
   # Enable bluetooth
   hardware.bluetooth.enable = true;
   hardware.bluetooth.powerOnBoot = true;
-  services.blueman.enable = true;
 
   # Enable logitech compatibility
   hardware.logitech.wireless.enable = true;
@@ -157,9 +150,8 @@
     ${adminUser} = {
       initialPassword = "supersecretpassword";
       isNormalUser = true;
-      extraGroups = [ "wheel" "networkmanager" "kvm" "libvirtd" "input" "bluetooth" ];
+      extraGroups = [ "wheel" "networkmanager" "kvm" "input" "video" ];
       openssh.authorizedKeys.keys = [
-        # TODO: Add your SSH public key(s) here, if you plan on using SSH to connect
       ];
     };
   };

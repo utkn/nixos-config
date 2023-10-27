@@ -1,0 +1,10 @@
+--- a/share/functions/__fish_is_zfs_feature_enabled.fish
++++ b/share/functions/__fish_is_zfs_feature_enabled.fish
+@@ -9,7 +9,6 @@ function __fish_is_zfs_feature_enabled -a feature target -d "Returns 0 if the gi
+     if test $status -ne 0 # No such feature
+         return 1
+     end
+-    echo $feature_name | read -l _ _ state _
+     set -l state (echo $feature_name | cut -f3)
+     string match -qr '(active|enabled)' -- $state
+     return $status
