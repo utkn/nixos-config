@@ -27,10 +27,9 @@
 	# Desktop apps (core)
   environment.systemPackages = with pkgs; [
     waybar
-    eww-wayland
     dunst # Notifications
-    networkmanagerapplet
     wofi
+    networkmanagerapplet
     pavucontrol
     hyprpaper
     playerctl

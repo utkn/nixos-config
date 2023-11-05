@@ -6,14 +6,12 @@
   userName,
   ...
 }: {
-  # You can import other home-manager modules here
   imports = [
     ./helix.nix
     ./alacritty.nix
   ];
 
   nixpkgs = {
-    # You can add overlays here
     overlays = [
       # If you want to use overlays exported from other flakes:
       # neovim-nightly-overlay.overlays.default
@@ -24,9 +22,7 @@
         });
       })
     ];
-    # Configure your nixpkgs instance
     config = {
-      # Disable if you don't want unfree packages
       allowUnfree = true;
       # Workaround for https://github.com/nix-community/home-manager/issues/2942
       allowUnfreePredicate = _: true;
@@ -51,7 +47,7 @@
     };
   };
 
-  # Cursor
+  # Cursor configuration
   home.pointerCursor = {
     gtk.enable = true;
     package = pkgs.simp1e-cursors;
@@ -59,7 +55,7 @@
     size = 36;
   };
   
-  # Enable home-manager and git
+  # Enable home-manager
   programs.home-manager.enable = true;
 
   # Nicely reload system units when changing configs

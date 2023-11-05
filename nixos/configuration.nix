@@ -14,15 +14,11 @@
   ];
 
   nixpkgs = {
-    # You can add overlays here
     overlays = [
-      # If you want to use overlays exported from other flakes:
       # neovim-nightly-overlay.overlays.default
 
       # (final: prev: {
-      #   fish = prev.fish.overrideAttrs (oldAttrs: {
-      #     patches = (oldAttrs.patches or []) ++ [ ./fish-zfs.patch ];
-      #   });
+      #   
       # })
     ];
     config = {
@@ -47,6 +43,7 @@
       auto-optimise-store = true;
     };
 
+    # Enable weekly garbage collection of the nix store.
     gc = {
       automatic = true;
       dates = "weekly";
@@ -80,6 +77,7 @@
     killall
   ];
 
+  # Default editor
   environment.sessionVariables = {
       EDITOR = "hx";
       VISUAL = "hx";
@@ -150,7 +148,7 @@
     ${adminUser} = {
       initialPassword = "supersecretpassword";
       isNormalUser = true;
-      extraGroups = [ "wheel" "networkmanager" "kvm" "input" "video" ];
+      extraGroups = [ "wheel" "networkmanager" "input" "video" ];
       openssh.authorizedKeys.keys = [
       ];
     };
