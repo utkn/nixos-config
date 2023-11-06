@@ -6,8 +6,7 @@
     noto-fonts-cjk
     font-awesome_5
   ];
-
-	# Bluetooth manager
+  
   services.blueman.enable = true;
 
   # Greeter

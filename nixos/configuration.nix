@@ -107,7 +107,7 @@
   #   enableSSHSupport = true;
   # };
 
-  # Enable bluetooth
+  # Bluetooth
   hardware.bluetooth.enable = true;
   hardware.bluetooth.powerOnBoot = true;
 
@@ -152,8 +152,8 @@
       openssh.authorizedKeys.keys = [
       ];
     };
-  };
-
+  };  
+  
   # https://nixos.wiki/wiki/FAQ/When_do_I_update_stateVersion
   system.stateVersion = "23.05";
 }
