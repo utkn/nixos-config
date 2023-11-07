@@ -17,9 +17,11 @@
     overlays = [
       # neovim-nightly-overlay.overlays.default
 
-      # (final: prev: {
-      #   
-      # })
+      (final: prev: {
+        fish = prev.fish.overrideAttrs (oldAttrs: {
+          patches = (oldAttrs.patches or []) ++ [ ./patches/fish-zfs.patch ];
+        });
+      })
     ];
     config = {
       # Disable if you don't want unfree packages
@@ -64,9 +66,16 @@
   # Core programs.
   programs.dconf.enable = true;
   environment.systemPackages = with pkgs; [
+    fish
+    firefox-wayland
+    alacritty
+    solaar
+    ranger
+    bottom
     helix
     aria2
     git
+    gh
     wget
     tree
     pciutils
@@ -81,6 +90,8 @@
   environment.sessionVariables = {
       EDITOR = "hx";
       VISUAL = "hx";
+      MOZ_ENABLE_WAYLAND = "1"; # enable wayland for firefox
+      RANGER_LOAD_DEFAULT_RC = "false";
   };
 
   # Networking
@@ -153,7 +164,7 @@
       ];
     };
   };  
-  
+
   # https://nixos.wiki/wiki/FAQ/When_do_I_update_stateVersion
   system.stateVersion = "23.05";
 }
