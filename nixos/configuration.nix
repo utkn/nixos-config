@@ -11,6 +11,7 @@
     ./hardware-configuration.nix
     ./virtualization.nix
     ./desktop.nix
+    ./user.nix
   ];
 
   nixpkgs = {
@@ -67,11 +68,6 @@
   programs.dconf.enable = true;
   environment.systemPackages = with pkgs; [
     fish
-    firefox-wayland
-    alacritty
-    solaar
-    ranger
-    bottom
     helix
     aria2
     git
@@ -88,10 +84,9 @@
 
   # Default editor
   environment.sessionVariables = {
-      EDITOR = "hx";
-      VISUAL = "hx";
-      MOZ_ENABLE_WAYLAND = "1"; # enable wayland for firefox
-      RANGER_LOAD_DEFAULT_RC = "false";
+    EDITOR = "hx";
+    VISUAL = "hx";
+    RANGER_LOAD_DEFAULT_RC = "false";
   };
 
   # Networking
@@ -109,14 +104,6 @@
   # Open ports in the firewall.
   # networking.firewall.allowedTCPPorts = [ ... ];
   # networking.firewall.allowedUDPPorts = [ ... ];
-
-  # Some programs need SUID wrappers, can be configured further or are
-  # started in user sessions.
-  # programs.mtr.enable = true;
-  # programs.gnupg.agent = {
-  #   enable = true;
-  #   enableSSHSupport = true;
-  # };
 
   # Bluetooth
   hardware.bluetooth.enable = true;
@@ -144,7 +131,7 @@
   };
 
   # Enable touchpad support (enabled default in most desktopManager).
-  # services.xserver.libinput.enable = true;
+  services.xserver.libinput.enable = true;
 
   # Enable the OpenSSH daemon.
   services.openssh = {
