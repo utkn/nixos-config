@@ -1,6 +1,7 @@
 { pkgs, adminUser, ... }: {
 	users.users."${adminUser}" = {
 		packages = with pkgs; [
+			thunderbird
 	    ranger
 	    bottom
 	    firefox-wayland
